@@ -8,7 +8,7 @@ pipeline {
         DOCKER_IMAGE = 'web-app'  // Nom de l'image Docker à construire
         DOCKER_USERNAME = 'ditdevops1'  // Nom d'utilisateur Docker Hub
         DOCKER_CONTAINER = 'ci-cd-html-css-app'  // Nom du conteneur à déployer
-        DOCKER_CREDENTIALS = credentials('docker-hub-credentials-id')  // Identifiants Docker Hub
+        DOCKER_CREDENTIALS = credentials('c51aa3f7-82ee-4b60-828c-376f73dd3951')  // Identifiants Docker Hub
         IMAGE_VERSION = "1.${BUILD_NUMBER}"  // Version dynamique basée sur le numéro de build Jenkins
     }
 
