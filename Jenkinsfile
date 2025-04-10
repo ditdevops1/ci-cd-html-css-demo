@@ -5,11 +5,12 @@ pipeline {
 
     // Variables d'environnement globales
     environment {
-        DOCKER_IMAGE = "${DOCKER_USERNAME}/webinaire-app"  // Nom de l'image Docker à construire
+        DOCKER_IMAGE = "${DOCKER_USERNAME}/webinaire-app:${IMAGE_VERSION}"  // Nom de l'image Docker à construire
         DOCKER_USERNAME = "ditdevops1"  // Nom d'utilisateur Docker Hub
         DOCKER_CONTAINER = "ci-cd-html-css-app"  // Nom du conteneur à déployer
         DOCKER_CREDENTIALS = credentials("c51aa3f7-82ee-4b60-828c-376f73dd3951")  // Identifiants Docker Hub
         IMAGE_VERSION = "1.${BUILD_NUMBER}"  // Version dynamique basée sur le numéro de build Jenkins
+
     }
 
     // Étapes du pipeline
@@ -44,7 +45,7 @@ pipeline {
             }
         }
 
-        // Étape 4 : Déploiement de l'image
+        // Étape 4 : Déploiement
         stage("Deploy") {
             steps {
                 script {
@@ -55,26 +56,20 @@ pipeline {
                         echo 'Docker login successful'
                     """
 
-                    // Étiquetage de l'image avec la version dynamique
-                    bat """
-                        # Tag l'image construite pour Docker Hub
-                        docker tag $DOCKER_IMAGE $DOCKER_USERNAME/webinaire-app:${IMAGE_VERSION}
-                    """
-
-                    // Publication sur Docker Hub
+                    // Publication de l'image sur Docker Hub
                     bat """
                         # Pousse l'image vers Docker Hub
-                        docker push $DOCKER_USERNAME/webinaire-app:${IMAGE_VERSION}
+                        docker push $DOCKER_IMAGE
                     """
 
                     // Déploiement de l'application 
                     bat """
-                        # Arrête le conteneur existant s'il existe
+                        # Arrête le conteneur s'il existe
                         docker stop $DOCKER_CONTAINER || true
                         # Supprime le conteneur s'il  existe
                         docker rm $DOCKER_CONTAINER || true
                         # Lance un nouveau conteneur en mode détaché
-                        docker run -d --name $DOCKER_CONTAINER -p 8080:80 $DOCKER_USERNAME/webinaire-app:${IMAGE_VERSION}
+                        docker run -d --name $DOCKER_CONTAINER -p 8080:80 $DOCKER_IMAGE
                     """
                 }
             }
@@ -85,7 +80,7 @@ pipeline {
             emailext(
                 subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                 body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                            <p>Deployed image: $DOCKER_USERNAME/fruit-rec-api:${IMAGE_VERSION}</p>
+                            <p>Deployed image: $DOCKER_USERNAME/webinaire-app:${IMAGE_VERSION}</p>
                             <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
                 to: 'ditdevops1@gmail.com',
                 mimeType: 'text/html'
