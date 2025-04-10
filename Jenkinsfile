@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // Construit l'image Docker
-                    bat "docker build -t ${DOCKER_IMAGE}:${IMAGE_VERSION} ."
+                    bat "docker build -t $DOCKER_IMAGE ."
                 }
             }
         }
@@ -74,7 +74,7 @@ pipeline {
                         # Supprime le conteneur s'il  existe
                         docker rm $DOCKER_CONTAINER || true
                         # Lance un nouveau conteneur en mode détaché
-                        docker run -d --name $DOCKER_CONTAINER -p 8080:80 ${DOCKER_IMAGE}:${IMAGE_VERSION}
+                        docker run -d --name $DOCKER_CONTAINER -p 8080:80 $DOCKER_USERNAME/webinaire-app:${IMAGE_VERSION}
                     """
                 }
             }
@@ -83,20 +83,20 @@ pipeline {
     post {
         success {
             emailext(
-                subject: "SUCCESS: Job "${env.JOB_NAME} [${env.BUILD_NUMBER}]"",
-                body: """<p>SUCCESS: Job "${env.JOB_NAME} [${env.BUILD_NUMBER}]":</p>
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                             <p>Deployed image: $DOCKER_USERNAME/fruit-rec-api:${IMAGE_VERSION}</p>
                             <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-                to: "ditdevops1@gmail.com",
+                to: 'ditdevops1@gmail.com',
                 mimeType: 'text/html'
             )
         }
         failure {
             emailext(
-                subject: "FAILED: Job "${env.JOB_NAME} [${env.BUILD_NUMBER}]"",
-                body: """<p>FAILED: Job "${env.JOB_NAME} [${env.BUILD_NUMBER}]":</p>
+                subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                             <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-                to: "ditdevops1@gmail.com",
+                to: 'ditdevops1@gmail.com',
                 mimeType: 'text/html'
             )
         }
