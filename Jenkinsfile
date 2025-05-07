@@ -9,7 +9,7 @@ pipeline {
         IMAGE_VERSION       = "1.${BUILD_NUMBER}"                // version dynamique de l’image
         DOCKER_IMAGE        = "${DOCKER_USERNAME}/tp-app:${IMAGE_VERSION}" // nom de l’image docker
         DOCKER_CONTAINER    = "ci-cd-html-css-app"               // nom du conteneur
-        DOCKER_CREDENTIALS  = credentials("c51aa3f7-82ee-4b60-828c-376f73dd3951") // identifiants Docker Hub
+        DOCKER_CREDENTIALS  = credentials("credentiel-id") // identifiants Docker Hub
     }
 
     // Les étapes du pipeline
