@@ -8,7 +8,7 @@ pipeline {
         DOCKER_USERNAME     = "ditdevops1"                        // votre username Docker Hub
         IMAGE_VERSION       = "1.${BUILD_NUMBER}"                // version dynamique de l’image
         DOCKER_IMAGE        = "${DOCKER_USERNAME}/tp-app:${IMAGE_VERSION}" // nom de l’image docker
-        DOCKER_CONTAINER    = "ci-cd-html-css-app"               // nom du conteneur
+        DOCKER_CONTAINER    = "ci-cd-html-css-app-${BUILD_NUMBER}"               // nom du conteneur
         DOCKER_CREDENTIALS  = credentials("credential-id") // identifiants Docker Hub
     }
 
