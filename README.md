@@ -1,6 +1,6 @@
 # Projet CI/CD HTML/CSS
 
-Ce projet a été réalisé dans le cadre d’un webinaire DevOps.
+Ce projet a été réalisé dans le cadre du module DevOps M1 DIT.
 
 ## Technologies utilisées
 
