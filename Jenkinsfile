@@ -1,10 +1,7 @@
 // Déclaration du pipeline Jenkins
 pipeline {
     // Exécute le pipeline sur n'importe quel agent
-    // agent any
-    agent {
-     label 'windows'
-    }
+    agent any
 
     // Déclarer les variables d'environnement globales
     environment {
@@ -12,7 +9,7 @@ pipeline {
         IMAGE_VERSION       = "1.${BUILD_NUMBER}"                // version dynamique de l’image
         DOCKER_IMAGE        = "${DOCKER_USERNAME}/tp-app:${IMAGE_VERSION}" // nom de l’image docker
         DOCKER_CONTAINER    = "ci-cd-html-css-app"               // nom du conteneur
-        DOCKER_CREDENTIALS  = credentials("credentiel-id") // identifiants Docker Hub
+        DOCKER_CREDENTIALS  = credentials("credential-id") // identifiants Docker Hub
     }
 
     // Les étapes du pipeline
