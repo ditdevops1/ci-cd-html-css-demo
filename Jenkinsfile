@@ -68,7 +68,7 @@ pipeline {
                 
 
                     # Lance un nouveau conteneur en mode détaché(en arrière-plan )
-                    docker container run -d --name $DOCKER_CONTAINER -p 8080:80 $DOCKER_IMAGE
+                    docker container run -d --name $DOCKER_CONTAINER -p 8085:80 $DOCKER_IMAGE
 
                     """
                 }
