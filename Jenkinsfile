@@ -32,7 +32,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script {
-                    bat "docker build -t $DOCKER_IMAGE ."
+                    sh "docker build -t $DOCKER_IMAGE ."
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'credential-id', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]){ 
-                    bat """
+                    sh """
                     docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
                     echo 'Docker login successful'
                     docker push $DOCKER_IMAGE
@@ -56,7 +56,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 script {
-                    bat """
+                    sh """
                     
                     # Arrête le conteneur s'il existe
                     docker container stop $DOCKER_CONTAINER || true
